@@ -1,12 +1,17 @@
 import { initTRPC } from "@trpc/server";
 import { cache } from "react";
 import superjson from "superjson";
+import { auth } from "@/auth";
 
 export const createTRPCContext = cache(async () => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
-  return { userId: "user_123" };
+  const session = await auth();
+  return {
+    userId: session?.user?.id || null,
+    session
+  };
 });
 // Avoid exporting the entire t-object
 // since it's not very descriptive.

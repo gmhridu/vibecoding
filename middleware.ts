@@ -1,6 +1,4 @@
-import NextAuth from "next-auth";
-
-import authConfig from "./auth.config";
+import { auth } from "./auth";
 import {
   apiAuthPrefix,
   authRoutes,
@@ -8,19 +6,20 @@ import {
   publicRoutes,
 } from "./routes";
 
-const { auth } = NextAuth(authConfig);
-
 export default auth((req) => {
   const { nextUrl } = req;
+
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isApiRoute = nextUrl.pathname.startsWith('/api/');
 
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (isApiAuthRoute) {
+  // Allow all API routes (auth and non-auth) without authentication
+  if (isApiRoute) {
     return null;
   }
 

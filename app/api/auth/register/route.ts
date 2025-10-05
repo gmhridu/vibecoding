@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
+    const { name, email, password, image } = await request.json();
 
     // Validate input
     if (!name || !email || !password) {
@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         password: hashedPassword,
+        image: image || null,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
         id: users.id,
         name: users.name,
         email: users.email,
+        image: users.image,
         createdAt: users.createdAt,
       });
 

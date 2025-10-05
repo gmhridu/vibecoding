@@ -73,8 +73,15 @@ const SignupClient = () => {
   });
 
   const onSubmit = (data: SignUpFormData) => {
-    registerMutation.mutate(data);
-  };
+   console.log('🚀 Signup form submitted with data:', {
+     name: data.name,
+     email: data.email,
+     hasImage: !!data.image,
+     imageType: data.image ? (data.image.startsWith('data:') ? 'base64' : 'URL') : 'none',
+     imagePreview: data.image ? data.image.substring(0, 50) + '...' : 'none'
+   });
+   registerMutation.mutate(data);
+ };
 
   return (
     <div className="w-full max-w-md space-y-6">
